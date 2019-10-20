@@ -5,6 +5,7 @@
 //  Created by Srinivas Vemuri on 10/10/17.
 //  Copyright © 2017 Xornorik. All rights reserved.
 //
+
 import UIKit
 
 @objc
@@ -330,27 +331,33 @@ extension SVPinView : UICollectionViewDataSource, UICollectionViewDelegate, UICo
         let height = collectionView.frame.height
         return CGSize(width: min(width, height), height: min(width, height))
     }
-    
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return interSpace
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        let width = (collectionView.bounds.width - (interSpace * CGFloat(max(pinLength, 1) - 1)))/CGFloat(pinLength)
+        let height = collectionView.frame.height
+        let occupiedWidth = min(width, height) * CGFloat(max(pinLength,1))
+        let interWidth = (collectionView.bounds.width - occupiedWidth) / CGFloat((max(pinLength,1)))
+        return interWidth
     }
+//    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+//        return interSpace
+//    }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         
-        if UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight {
+//        if UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight {
             return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        }
-        let width = (collectionView.bounds.width - (interSpace * CGFloat(max(pinLength, 1) - 1)))/CGFloat(pinLength)
-        let height = collectionView.frame.height
-        let top = (collectionView.bounds.height - min(width, height)) / 2
-        if height < width {
-            // If width of field > height, size the fields to the pinView height and center them.
-            let totalCellWidth = height * CGFloat(pinLength)
-            let totalSpacingWidth = interSpace * CGFloat(max(pinLength, 1) - 1)
-            let inset = (collectionView.frame.size.width - CGFloat(totalCellWidth + CGFloat(totalSpacingWidth))) / 2
-            return UIEdgeInsets(top: top, left: inset, bottom: 0, right: inset)
-        }
-        return UIEdgeInsets(top: top, left: 0, bottom: 0, right: 0)
+//        }
+//        let width = (collectionView.bounds.width - (interSpace * CGFloat(max(pinLength, 1) - 1)))/CGFloat(pinLength)
+//        let height = collectionView.frame.height
+//        let top = (collectionView.bounds.height - min(width, height)) / 2
+//        if height < width {
+//            // If width of field > height, size the fields to the pinView height and center them.
+//            let totalCellWidth = height * CGFloat(pinLength)
+//            let totalSpacingWidth = interSpace * CGFloat(max(pinLength, 1) - 1)
+//            let inset = (collectionView.frame.size.width - CGFloat(totalCellWidth + CGFloat(totalSpacingWidth))) / 2
+//            return UIEdgeInsets(top: top, left: inset, bottom: 0, right: inset)
+//        }
+//        return UIEdgeInsets(top: top, left: 0, bottom: 0, right: 0)
     }
     
     public override func layoutSubviews() {
